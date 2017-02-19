@@ -1,5 +1,5 @@
 CC = clang-5.0
-WARNINGS = -Weverything -Wno-padded
+WARNINGS = -Weverything
 
 SOURCE = brainfuck.c
 EXECUTABLE = brainfuck
