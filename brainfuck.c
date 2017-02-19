@@ -38,6 +38,9 @@ void compile(FILE *in, FILE *out) {
 		case '.':
 			fprintf(out, "\tcall\tputchar\n");
 			break;
+		case ',':
+			fprintf(out, "\tcall\tgetchar\n");
+			break;
 		case '[':
 			stack[sp++] = unique;
 			fprintf(out,
@@ -55,10 +58,6 @@ void compile(FILE *in, FILE *out) {
 				"be%d:\n",
 				stack[sp], stack[sp]);
 			break;
-
-		case ',':
-			fprintf(out, "\tcall\tgetchar\n");
-			break;
 		default:
 			break;
 		}
@@ -72,8 +71,7 @@ void compile(FILE *in, FILE *out) {
 		"\tpush\tr11\n"
 		"\tmov\trax, 1\n"
 		"\tmov\trdi, 1\n"
-		"\tmov\trsi, r11\n"
-		"\tadd\trsi, array\n"
+		"\tlea\trsi, [r11+array]\n"
 		"\tmov\trdx, 1\n"
 		"\tsyscall\n"
 		"\tpop\tr11\n"
@@ -91,13 +89,17 @@ void compile(FILE *in, FILE *out) {
 
 int main(int argc, char *argv[]) {
 	if (argc != 2) {
-		printf("Usage: braifuck <program>\n");
+		printf("Usage: brainfuck <program>\n");
 		return 0;
 	}
 
 	FILE *in = fopen(argv[1], "r");
+	if (in == NULL) {
+		perror("fopen");
+		return -1;
+	}
 	FILE *out = fopen("out.s", "w");
-	if (in == NULL || out == NULL) {
+	if (out == NULL) {
 		perror("fopen");
 		return -1;
 	}
