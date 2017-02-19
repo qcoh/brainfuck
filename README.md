@@ -1,6 +1,6 @@
 # brainfuck
 
-A small brainfuck compiler targetting x86\_64 Linux.
+A small brainfuck compiler targeting x86\_64 Linux.
 
 The main purpose of this is to learn some assembly. Comments and criticism very welcome!
 
